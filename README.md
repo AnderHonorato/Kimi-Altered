@@ -10,9 +10,9 @@ Para executar **inferência remota**, sem armazenar pesos no PC, há um cliente 
 
 Primeiro, teste somente a disponibilidade dos metadados (gratuito, sem login e sem baixar os pesos):
 
-\`\`\`powershell
+```powershell
 python scripts/inferencia_hf.py --verificar
-\`\`\`
+```
 
 Para conversar com o Kimi K3 remotamente:
 
@@ -20,13 +20,13 @@ Para conversar com o Kimi K3 remotamente:
 2. Crie um token de acesso com permissão para Inference Providers nas [configurações de tokens](https://huggingface.co/settings/tokens).
 3. Execute:
 
-\`\`\`powershell
+```powershell
 python scripts/inferencia_hf.py --chat --autorizar-envio
-\`\`\`
+```
 
-O programa solicitará seu token de forma oculta caso a variável de ambiente \`HF_TOKEN\` não esteja definida. **Não publique nem envie seu token.** Os pesos não são baixados, e o cliente não grava histórico no disco. O modelo usado pela API é \`moonshotai/Kimi-K3:cheapest\` (provedor disponível de menor custo conforme a política de roteamento).
+O programa solicitará seu token de forma oculta caso a variável de ambiente `HF_TOKEN` não esteja definida. **Não publique nem envie seu token.** Os pesos não são baixados, e o cliente não grava histórico no disco. O modelo usado pela API é `moonshotai/Kimi-K3:cheapest` (provedor disponível de menor custo conforme a política de roteamento).
 
-**Importante:** esta é uma opção de uso remoto. O motor independente \`kimi-k3-in-c\` exige arquivos locais e leituras aleatórias de dados; não reconhece automaticamente caminhos \`hf://\`. Adaptá-lo para acessar os 1,56 TB remotamente exigiria uma camada de I/O adicional e largura de banda imensa. Não foi implementado nem validado streaming direto de pesos para a CPU local.
+**Importante:** esta é uma opção de uso remoto. O motor independente `kimi-k3-in-c` exige arquivos locais e leituras aleatórias de dados; não reconhece automaticamente caminhos `hf://`. Adaptá-lo para acessar os 1,56 TB remotamente exigiria uma camada de I/O adicional e largura de banda imensa. Não foi implementado nem validado streaming direto de pesos para a CPU local.
 
 ## Estado
 
