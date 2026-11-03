@@ -1,6 +1,32 @@
 # Kimi-Altered
 
-Projeto de preparação, diagnóstico e testes locais para executar o motor [kimi-k3-in-c](https://github.com/FareedKhan-dev/kimi-k3-in-c), de Fareed Khan. **Ainda não contém modelo, pesos ou chatbot funcional.**
+Projeto de inferência remota pelo Hugging Face, diagnóstico e testes locais para executar o motor [kimi-k3-in-c](https://github.com/FareedKhan-dev/kimi-k3-in-c), de Fareed Khan. **Ainda não contém pesos. O cliente de chat remoto depende de credenciais válidas e de disponibilidade do serviço; a execução do motor C com pesos completos não foi testada.**
+
+## Sem espaço no PC: Kimi K3 pelo Hugging Face
+
+Os **96 arquivos do modelo completo (1,56 TB)** já estão hospedados em [moonshotai/Kimi-K3](https://huggingface.co/moonshotai/Kimi-K3). Não é necessário copiá-los nem enviá-los a outra conta.
+
+Para executar **inferência remota**, sem armazenar pesos no PC, há um cliente em Python 3.9+ que usa os [Inference Providers do Hugging Face](https://huggingface.co/docs/inference-providers/index). Ele funciona no Windows, macOS e Linux. **A computação acontece no provedor, não na CPU local com o motor C.** Requer internet e pode consumir créditos.
+
+Primeiro, teste somente a disponibilidade dos metadados (gratuito, sem login e sem baixar os pesos):
+
+\`\`\`powershell
+python scripts/inferencia_hf.py --verificar
+\`\`\`
+
+Para conversar com o Kimi K3 remotamente:
+
+1. Consulte os [créditos e preços de inferência](https://huggingface.co/docs/inference-providers/pricing) e confirme as permissões da sua conta.
+2. Crie um token de acesso com permissão para Inference Providers nas [configurações de tokens](https://huggingface.co/settings/tokens).
+3. Execute:
+
+\`\`\`powershell
+python scripts/inferencia_hf.py --chat --autorizar-envio
+\`\`\`
+
+O programa solicitará seu token de forma oculta caso a variável de ambiente \`HF_TOKEN\` não esteja definida. **Não publique nem envie seu token.** Os pesos não são baixados, e o cliente não grava histórico no disco. O modelo usado pela API é \`moonshotai/Kimi-K3:cheapest\` (provedor disponível de menor custo conforme a política de roteamento).
+
+**Importante:** esta é uma opção de uso remoto. O motor independente \`kimi-k3-in-c\` exige arquivos locais e leituras aleatórias de dados; não reconhece automaticamente caminhos \`hf://\`. Adaptá-lo para acessar os 1,56 TB remotamente exigiria uma camada de I/O adicional e largura de banda imensa. Não foi implementado nem validado streaming direto de pesos para a CPU local.
 
 ## Estado
 
