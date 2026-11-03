@@ -1,0 +1,19 @@
+# Motor externo: deve ser instalado localmente, nao versionado aqui.
+engine/
+# Pesos, checkpoints e cache local.
+k3model/
+k3trunk/
+modelos/
+dados/modelos/
+*.safetensors
+*.gguf
+*.ggml
+*.part
+# Segredos e arquivos locais
+.env
+.env.*
+!.env.example
+*.log
+__pycache__/
+.DS_Store
+Thumbs.db
