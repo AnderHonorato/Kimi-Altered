@@ -1,0 +1,35 @@
+name: Verificar preparacao do Kimi-Altered
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/verificar.yml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  engine-sem-pesos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verificar sintaxe Bash
+        run: bash -n scripts/preparar.sh
+
+      - name: Verificar sintaxe PowerShell
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $erros = $null
+          $caminho = (Resolve-Path "scripts/diagnostico.ps1").Path
+          $null = [System.Management.Automation.Language.Parser]::ParseFile($caminho, [ref]$tokens, [ref]$erros)
+          if ($erros.Count -gt 0) {
+            $erros | Format-List | Out-String | Write-Error
+            exit 1
+          }
+
+      - name: Compilar e testar o motor oficial sem checkpoint
+        run: bash scripts/preparar.sh
