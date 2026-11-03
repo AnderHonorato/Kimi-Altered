@@ -14,7 +14,7 @@ for cmd in git make gcc; do
   fi
 done
 
-if [ -n "$MSYSTEM" ] 2>/dev/null; then
+if [ -n "${MSYSTEM:-}" ]; then
   if [ "$MSYSTEM" != "MINGW64" ]; then
     echo "AVISO: no Windows utilize o terminal MSYS2 MinGW x64 (MINGW64)." >&2
     exit 1
